@@ -1,0 +1,2 @@
+let javascript_enable_domhtmlcss=1
+set omnifunc=javascriptcomplete#CompleteJS

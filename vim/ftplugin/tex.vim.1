@@ -1,0 +1,160 @@
+
+function! s:PreFtLatexOld() "{{{
+    " to setup replacing symbols(\alpha -> α)
+    let g:tex_conceal=''
+    " useless when real conceal power is used
+    let g:indentLine_enabled = 1
+    "hi Conceal guibg=NONE guifg=Green
+    let g:tex_flavor='latex'
+    let b:syntastic_mode="passive"
+    let g:Tex_ViewRule_pdf='mupdf'
+    let g:Tex_MultipleCompileFormats='dvi,pdf'
+    "let g:Tex_CompileRule_pdf = 'pdflatex --interaction=nonstopmode -file-line-error-style $*'
+    let g:Tex_SmartKeyQuote = 0 
+endfunction "}}}
+function! s:PreFtLatexClass() "{{{
+    " to prevent replacing symbols(\alpha -> α)
+    let g:tex_conceal=''
+    let g:tex_flavor='latex'
+    let b:syntastic_mode="passive"
+    "let g:Tex_ViewRule_pdf=''
+    "let g:Tex_CompileRule_pdf = ''
+    "TTarget pdf 
+endfunction "}}}
+function! s:PastFtLatex() "{{{
+    setlocal omnifunc=syntaxcomplete#Complete
+    let g:tex_conceal=''
+    " to use pdflatex to compile
+"     TTarget pdf
+    setlocal grepprg=grep\ -nH\ $*
+    " this is mostly a matter of taste. But LaTeX looks good with just a bit
+    " of indentation.
+    setlocal tabstop=2 shiftwidth=2 softtabstop=2 
+    " TIP: if you write your \label's as \label{fig:something}, then if you
+    " type in \ref{fig: and press <C-n> you will automatically cycle through
+    " all the figure labels. Very useful!
+    setlocal iskeyword+=: 
+"     hi Conceal guibg=NONE guifg=LightGray
+    setlocal cole=2
+    setlocal concealcursor="nc"
+    if g:tex_conceal != ''
+        syn match texMathSymbol '\\Rightarrow\>' contained conceal cchar=⇒
+        syn match texMathSymbol '\\leqslant\>' contained conceal cchar=⩽ 
+        syn match texMathSymbol '\\geqslant\>' contained conceal cchar=⩾ 
+        syn match texMathSymbol '\\varkappa\>' contained conceal cchar=ϰ 
+    endif
+    call IMAP(g:Tex_Leader.'w', '\omega', 'tex')
+    call IMAP(g:Tex_Leader.'<', '\leqslant', 'tex')
+    call IMAP(g:Tex_Leader.'>', '\geqslant', 'tex')
+    call IMAP('=>arr', '\Rightarrow', 'tex')
+    call IMAP('<=>arr', '\Leftrightarrow', 'tex')
+    call IMAP('<=arr', '\Leftarrow', 'tex')
+    call IMAP(',,,', ', \dotsc , ', 'tex')
+    let g:Tex_Env_{'defn'}="\\begin{defn}<++>\\label{defn:<+name+>}\n<++>\n\\end{defn}\n<++>"
+    let g:Tex_Env_{'thrm'}="\\begin{thrm}<++>\\label{thrm:<+name+>}\n<++>\n\\end{thrm}\n<++>"
+    let g:Tex_Env_{'stat'}="\\begin{stat}<++>\\label{stat:<+name+>}\n<++>\n\\end{stat}\n<++>"
+    let g:Tex_Env_{'lem'}="\\begin{lem}<++>\\label{lem:<+name+>}\n<++>\n\\end{lem}\n<++>"
+    nnoremap <leader>lfr :call <SID>PreviewLatex(@")<cr> 
+endfunction }}}
+
+function! s:PreviewLatex(str) "{{{
+    let proc=system("ps ax | grep '[f]eh /tmp/easyltx_files/easytexput1.png -R 1'")
+    if empty(proc)
+        execute '!feh /tmp/easyltx_files/easytexput1.png -R 1 &' 
+    endif
+
+    silent !clear
+    let tmp = 'easyltx -i '.shellescape(a:str).' &'
+    "echom tmp
+    "echom system(tmp)
+endfunction "}}}
+
+fun! s:ToggleColon() "{{{
+    if exists('b:keyword_colon')
+        setlocal iskeyword-=:
+        unlet b:keyword_colon
+    else
+        setlocal iskeyword+=:
+        let b:keyword_colon=1
+    endif
+endf "}}}
+
+let g:tex_conceal=''
+let g:tex_flavor='latex'
+let b:syntastic_mode="passive"
+let b:delimitMate_quotes = "$"
+
+" fixing grep
+setlocal grepprg=grep\ -nH\ $*
+" this is mostly a matter of taste. But LaTeX looks good with just a bit
+" of indentation.
+setlocal tabstop=2 shiftwidth=2 softtabstop=2 
+" TIP: if you write your \label's as \label{fig:something}, then if you
+" type in \ref{fig: and press <C-n> you will automatically cycle through
+" all the figure labels. Very useful!
+setlocal iskeyword+=: 
+"     hi Conceal guibg=NONE guifg=LightGray
+setlocal cole=2
+setlocal concealcursor="nc"
+
+setlocal foldlevel=0
+
+if g:tex_conceal != ''
+    syn match texMathSymbol '\\Rightarrow\>' contained conceal cchar=⇒
+    syn match texMathSymbol '\\leqslant\>' contained conceal cchar=⩽ 
+    syn match texMathSymbol '\\geqslant\>' contained conceal cchar=⩾ 
+    syn match texMathSymbol '\\varkappa\>' contained conceal cchar=ϰ 
+endif
+
+syn sync maxlines=200
+syn sync minlines=50
+
+nnoremap <expr> <leader>lfr <SID>PreviewLatex(@")
+inoremap » <C-o>:call <SID>ToggleColon() <cr>
+
+if exists('did_set_vimtex_imaps')
+else
+    let g:vimtex_imaps_disabled = ['0']
+    call vimtex#imaps#add_map({
+                \ 'lhs' : '-',
+                \ 'rhs' : '\overline{'
+                \})
+    call vimtex#imaps#add_map({
+                \ 'lhs' : '_',
+                \ 'rhs' : '\underline{'
+                \})
+    call vimtex#imaps#add_map({
+                \ 'lhs' : '~',
+                \ 'rhs' : '\widetilde{'
+                \})
+    call vimtex#imaps#add_map({
+                \ 'lhs' : '0',
+                \ 'rhs' : '\varnothing'
+                \})
+    let did_set_vimtex_imaps=1
+endif
+
+" NoMatchParen
+" o[missions] abbrev ;[end]
+iabbrev <buffer> o,,,; <BS>, \dotsc,
+iabbrev <buffer> o+++; + \dotsb +
+iabbrev <buffer> o***; \dotsm
+" a[rrows] abbrev ;[end]
+iabbrev <buffer> a<=>; \Leftrightarrow
+iabbrev <buffer> a<->; \leftrightarrow
+iabbrev <buffer> a=>;  \Rightarrow
+iabbrev <buffer> a<=;  \Leftarrow
+" [e]x[tesible arrows] abbrev ;[end]
+iabbrev <buffer> x<=>; \xLeftrightarrow
+iabbrev <buffer> x<->; \xleftrightarrow
+iabbrev <buffer> x=>;  \xRightarrow
+iabbrev <buffer> x<=;  \xLeftarrow
+iabbrev <buffer> x->;  \xrightarrow
+iabbrev <buffer> x<-;  \xleftarrow
+" r[elations] abbrev ;[end]
+iabbrev <buffer> r<=;  \leqslant
+inoreabbrev <buffer> r>=;  \geqslant
+
+inoremap <M-b> <esc>i\mathbf <right>
+" setlocal omnifunc=syntaxcomplete#Complete
+" vim: foldmethod=marker
