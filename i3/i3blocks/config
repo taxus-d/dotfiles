@@ -1,0 +1,170 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+command=$SCRIPT_DIR/default/$BLOCK_NAME
+separator_block_width=10
+markup=pango
+separator=false
+full_text=<span font='Hack'></span>
+# full_text=<span font='Droid Sans Mono for Powerline'><span foreground="#000000" background="#777777"></span></span>
+align=center
+color=#999999
+
+[test]
+# command="echo foo | $SCRIPT_DIR/custom/wrapblock/wrapblock"
+
+# [volume]
+# # label=VOL
+# label=♪
+# instance=Master
+# #instance=PCM
+# command=/usr/share/i3blocks/volume
+# interval=once
+# signal=10
+
+[window title]
+label=
+command=~/.i3/i3blocks/custom/wintitle/wintitle 54 2:1
+interval=3
+color=#A6D1FA
+# min_width=1366
+# max_width=2350
+align=right
+
+[separator]
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+command=/usr/share/i3blocks/memory
+label= 
+color=#FFFFFF
+separator=false
+interval=30
+
+# [memory]
+# label=SWAP
+# instance=swap
+# separator=false
+# interval=30
+
+# CPU usage
+#
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+markup=pango
+label=<span font='Symbola'>⚛</span>
+
+interval=10
+color=#FFFFFF
+min_width=# 100.00%
+align=right
+separator=false
+
+# Disk usage
+#
+# The directory defaults to $HOME if the instance is not specified.
+# The script may be called with a optional argument to set the alert
+# (defaults to 10 for 10%).
+[disk]
+label=<span font='Symbola'>⛃</span>
+markup=pango
+full_text=
+color=#FFFFFF
+# #instance=/mnt/data
+interval=30
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+# [iface]
+# #instance=wlan0
+# color=#00FF00
+# interval=10
+# separator=false
+
+[separator]
+
+[wifi]
+label=
+instance=wlan0
+
+interval=10
+separator=false
+
+[bandwidth]
+command=~/.i3/i3blocks/default/bandwidth -i  -o 
+label=
+# instance=eth0
+color=#FFFFFF
+interval=5
+
+
+[separator]
+
+[temp]
+label=
+command=~/.i3/i3blocks/contrib/temperature/temperature
+color=#FFFFFF
+interval=10
+
+
+# [battery]
+# label=BAT
+# # label=⚡
+# command=/usr/share/i3blocks/battery
+# interval=30
+
+[separator]
+
+[battery]
+markup=pango
+command=$SCRIPT_DIR/contrib/battery/battery.py
+
+interval=30
+
+[separator]
+
+[date]
+label=
+command=date '+%Y-%m-%d'
+
+color=#FFFFFF
+interval=30
+separator=false
+
+[time]
+label=
+command=date '+%H:%M'
+
+color=#FFFFFF
+interval=30
+
+
+[separator]
+
+[monitors]
+command=$SCRIPT_DIR/contrib/monitor_manager/monitor_manager.py
+interval=once
