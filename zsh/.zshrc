@@ -1,0 +1,219 @@
+
+
+autoload -Uz compinit promptinit colors zcalc
+compinit
+promptinit
+colors
+
+autoload -U run-help
+autoload run-help-git
+autoload run-help-svn
+autoload run-help-svk
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
+
+#unalias run-help
+alias help=run-help
+
+zstyle ':completion:*' menu select=long-list select=0
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename '/home/iliya/.zshrc'
+
+# Emacs style edit-command
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+
+#default prompt theme
+prompt walters
+
+declare -A VCS_DETECTORS
+VCS_DETECTORS[git]='git rev-parse --is-inside-work-tree'
+_probe_vcs() {
+    eval "$VCS_DETECTORS[$1]" &>/dev/null
+}
+_vcs_detect_branch(){
+    if _probe_vcs 'git'; then
+        PROMPT_VCS_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        PROMPT_VCS="$PROMPT_VCS_BRANCH"
+    else
+        PROMPT_VCS=''
+    fi
+}
+# y 
+# $1 -- dir
+# $2 -- color positioning: left mid text right
+# $3 -- content
+_powerline_decorate(){
+    local pre post text colors sym dir
+    text=$3
+    dir=$1
+    eval "set - $2"
+    colors=($1 $2 $3 $4)
+    case "$dir" in
+        '>' )
+            pre="%K{${colors[2]}}%F{${colors[1]}}"
+            sym=
+            post="%K{${colors[4]}}%F{${colors[2]}}"\
+            ;;
+        '<' )
+            pre="%K{${colors[1]}}%F{${colors[2]}}"
+            sym=
+            post="%K{${colors[2]}}%F{${colors[4]}}"\
+            ;;
+        * )
+            echo "Unknown direction" >2
+            return 1
+    esac
+    echo "\
+${pre}\
+${sym}\
+%K{${colors[2]}}%F{${colors[3]}}\
+${text}\
+${post}\
+${sym}\
+%{$reset_color%}%f%k"
+}
+
+_update_prompt() {
+    _vcs_detect_branch
+    [[ ! -z "$PROMPT_VCS" ]] && PROMPT_VCS=$(_powerline_decorate '>' '0 236 7 0' "${PROMPT_VCS}")
+    PROMPT="\
+%{$fg[white]%}\
+%n\
+%{$reset_color%}\
+@\
+%{$fg[cyan]%}\
+%m\
+%{$reset_color%} \
+%F{214}\
+%2~ \
+%f\
+${PROMPT_VCS}\
+ %# "
+    RPROMPT="\
+%{%(?.%F{green}.%F{red})%}\
+\
+%{%(?.%K{green}.%K{red})%}\
+%F{black}\
+ %? \
+%k%f\
+%{$reset_color%}"
+}
+# correct misspelled cmds
+unsetopt correct_all
+setopt correct
+# prompt for fixing cmd
+SPROMPT="Error! Replace %r with %R ([Y]es/[N]o/[E]dit/[A]bort)"
+
+#history
+HISTFILE=~/.histfile
+HISTSIZE=5000
+SAVEHIST=5000
+setopt APPEND_HISTORY
+
+bindkey -e
+
+#options
+
+#syntax hightlighting
+#source ~/Downloads/apps/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+#env variables
+#export TEXMACS_PATH=/opt/texmacs
+if [[ ! $PATH =~ '$HOME/bin' ]]; then
+    PATH=$PATH:$HOME/bin
+fi
+export PATH
+#export PATH=$PATH:/opt/pycharm-community-4.5.1/bin:/opt/eclipse:/opt/google/chrome:/opt/sublime_text:/opt/texmacs/bin
+export TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S'
+
+# Aliases
+alias ls='ls --color=auto'
+alias grep='grep --colour=auto'
+# alias mc='LC_MESSAGES=C mc'
+alias yes=:
+#alias atom='atom --force-device-scale-factor=1'
+alias gvimr='gvim --remote'
+alias tmux='tmux -2 -u'
+# extract file
+extract () {
+ if [ -f $1 ] ; then
+ case $1 in
+ *.tar.bz2)   tar xjf $1     ;;
+ *.tar.gz)    tar xzf $1     ;;
+ *.bz2)       bunzip2 $1     ;;
+ *.rar)       unrar x $1     ;;
+ *.gz)        gunzip $1      ;;
+ *.tar)       tar xf $1      ;;
+ *.tbz2)      tar xjf $1     ;;
+ *.tbz)       tar -xjvf $1   ;;
+ *.tgz)       tar xzf $1     ;;
+ *.zip)       unzip $1       ;;
+ *.Z)         uncompress $1  ;;
+ *.7z)        7z x $1        ;;
+ *)           echo "I don't know how to extract '$1'..." ;;
+ esac
+ else
+ echo "'$1' is not a valid file"
+ fi
+}
+
+# pack archive
+pk() {
+    if [ $1 ] ; then
+        case $1 in
+        tbz) tar cjvf $2.tar.bz $2    ;;
+        tgz) tar czvf $2.tar.gz $2    ;;
+        tar) tar cpvf $2.tar $2       ;;
+        bz2) bzip $2                  ;;
+        gz)  gzip -c -9 -n $2 > $2.gz ;;
+        zip) zip -r $2.zip $2         ;;
+        7z)  7z a $2.7z $2            ;;
+        *)   echo "'$1' cannot be packed via pk()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+case "$TERM" in
+    xterm*)
+        chpwd () {print -Pn "\e]0;%n@%m: %~\a"}
+        ;;
+esac
+
+# improved dirstack
+DIRSTACKFILE="$HOME/.cache/zsh/dirs"
+if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+    dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+    [[ -d $dirstack[1] ]] && cd $dirstack[1]
+fi
+# chpwd() {
+#     print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+# }
+zshexit() {
+    print -l $PWD ${(F)dirstack} >$DIRSTACKFILE
+}
+precmd() {
+    _update_prompt
+}
+
+DIRSTACKSIZE=20
+
+setopt AUTO_CD
+setopt PUSHD_SILENT PUSHD_TO_HOME
+
+## Remove duplicate entries
+# setopt PUSHD_IGNORE_DUPS
+
+## This reverts the +/- operators.
+setopt PUSHD_MINUS
+
+export XDG_DATA_DIRS='/usr/share:/usr/share:/usr/local/share'
+export XDG_CURRENT_DESKTOP='kde'
+#export QT_SELECT=qt4
+
+export TERM=xterm-256color
+# vim:sw=4
