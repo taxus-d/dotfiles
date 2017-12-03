@@ -1,2 +1,3 @@
 # dotfiles
-vim,zsh,i3...
+
+for vim,zsh,i3,..
