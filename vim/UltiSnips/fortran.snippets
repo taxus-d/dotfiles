@@ -1,0 +1,68 @@
+snippet omp "omp parallel" b
+!$omp ${1:parallel}
+$0
+!$omp end $1
+endsnippet
+
+snippet impl
+implicit none
+$0
+endsnippet 
+
+snippet sr
+read (*, *) $0
+endsnippet 
+
+snippet do
+do ${1:i} = ${2:1}, ${3:N}
+	${4}
+end do
+endsnippet
+snippet type
+type :: ${1:name}
+	$0
+end type $1
+endsnippet
+
+snippet i
+integer :: ${0}
+endsnippet
+snippet r
+real :: ${0}
+endsnippet
+snippet l
+logical :: ${0}
+endsnippet
+snippet c
+character :: ${0}
+endsnippet
+snippet s
+character(len=${1}) :: ${0}
+endsnippet
+snippet t
+type(${1}) :: ${0}
+endsnippet
+
+snippet dfunc "Documented Fortran function" b
+
+`!p 
+ttw = min(int(vim.eval("&textwidth")),71)
+dashline = '!' + '-'*ttw
+snip.rv += snip.mkline(line=dashline)
+`
+! $1 ($2) -> $3
+`!p
+a = t[2].split(", ")
+for i in a:
+	snip.rv += snip.mkline("! " + str(i) + ": \n")
+`
+! 
+! 	${4:does_nothing}
+`!p
+snip.rv = dashline
+`
+function ${1:name}(${2}) result(${3})
+	$0
+end function $1
+
+endsnippet
