@@ -1,0 +1,45 @@
+let SessionLoad = 1
+set background=dark
+set backspace=indent,eol,start
+set fileencodings=ucs-bom,utf-8,default,latin1
+set guifont=Hack\ 10
+set guiheadroom=0
+set helplang=ru
+set history=50
+set hlsearch
+set incsearch
+set mouse=a
+set ruler
+set showcmd
+set listchars=eol:¬,tab:▸\ ,extends:»,precedes:«,trail:.
+set list "invisible characters, sometimes useful
+set termencoding=utf-8
+set updatetime=300
+
+" colorscheme gruvbox
+colorscheme hybrid
+" AirlineTheme gruvbox
+    
+" отключаем пищалку и мигание
+set noerrorbells visualbell t_vb=
+augroup NoBells
+    au!
+    autocmd GUIEnter * set visualbell t_vb=
+augroup END
+
+highlight lCursor guifg=NONE guibg=Cyan
+highlight Error gui=none guifg=#cc6666 guibg=NONE 
+
+" прячем панельки {{{
+set guioptions-=m   " меню
+set guioptions-=T   " тулбар
+set guioptions-=r   " скроллбары
+set guioptions-=L   " они же
+"}}}
+
+
+" augroup gvimrcEx
+"     autocmd!
+" "     autocmd BufWritePost ~/.vimrc,~/.vimrc_enhanced,~/.gvimrc source $MYVIMRC | source $MYGVIMRC | call RefreshUI()
+" augroup END
+
