@@ -35,6 +35,7 @@ floating_modifier $mod
 
 for_window [class="^.*" ] border 1pixel
 for_window [class="XClock"] border none, floating enable
+for_window [class="feh"] border none, floating enable
 hide_edge_borders smart
 # open a clock here right now
 # with same background as under mouse

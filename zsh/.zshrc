@@ -1,5 +1,5 @@
 
-
+fpath=(~/opt/zsh/Completion/ $fpath)
 autoload -Uz compinit promptinit colors zcalc
 compinit
 promptinit
@@ -78,28 +78,27 @@ ${sym}\
 
 _update_prompt() {
     _vcs_detect_branch
-    [[ ! -z "$PROMPT_VCS" ]] && PROMPT_VCS=$(_powerline_decorate '>' '0 236 7 0' "${PROMPT_VCS}")
+    [[ ! -z "$PROMPT_VCS" ]] && PROMPT_VCS="$(_powerline_decorate '>' '0 236 7 0' "${PROMPT_VCS}") "
     PROMPT="\
-%{$fg[white]%}\
+%F{15}\
 %n\
-%{$reset_color%}\
-@\
-%{$fg[cyan]%}\
+%F{11}\
+@%f\
+%F{6}\
 %m\
-%{$reset_color%} \
+%f \
 %F{214}\
 %2~ \
 %f\
 ${PROMPT_VCS}\
- %# "
+%# "
     RPROMPT="\
 %{%(?.%F{green}.%F{red})%}\
 \
 %{%(?.%K{green}.%K{red})%}\
 %F{black}\
  %? \
-%k%f\
-%{$reset_color%}"
+%k%f"
 }
 # correct misspelled cmds
 unsetopt correct_all
@@ -118,7 +117,7 @@ bindkey -e
 #options
 
 #syntax hightlighting
-#source ~/Downloads/apps/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/downloads/apps/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #env variables
 #export TEXMACS_PATH=/opt/texmacs
@@ -136,7 +135,7 @@ alias grep='grep --colour=auto'
 alias yes=:
 #alias atom='atom --force-device-scale-factor=1'
 alias gvimr='gvim --remote'
-alias tmux='tmux -2 -u'
+alias tmux='TERM=screen-256color tmux -2 -u'
 # extract file
 extract () {
  if [ -f $1 ] ; then
@@ -206,7 +205,7 @@ setopt AUTO_CD
 setopt PUSHD_SILENT PUSHD_TO_HOME
 
 ## Remove duplicate entries
-# setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_IGNORE_DUPS
 
 ## This reverts the +/- operators.
 setopt PUSHD_MINUS
@@ -216,4 +215,5 @@ export XDG_CURRENT_DESKTOP='kde'
 #export QT_SELECT=qt4
 
 export TERM=xterm-256color
+export TASKDDATA=/var/tmp/taskd
 # vim:sw=4

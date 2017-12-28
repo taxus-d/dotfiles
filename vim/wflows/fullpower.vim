@@ -149,6 +149,7 @@ syntax on
 
 let $PATH .= ":".$HOME."/bin"
 set shell=/bin/zsh
+set term=screen-256color
 
 " no beeping and blinking
 set noerrorbells visualbell t_vb=

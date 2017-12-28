@@ -11,7 +11,7 @@ set incsearch
 set mouse=a
 set ruler
 set showcmd
-set listchars=eol:¬,tab:▸\ ,extends:»,precedes:«,trail:.
+set listchars=eol:¬,tab:▸\ ,extends:»,precedes:«,trail:·
 set list "invisible characters, sometimes useful
 set termencoding=utf-8
 set updatetime=300
