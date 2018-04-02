@@ -55,6 +55,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tommcdo/vim-exchange'
 
 Plug 'jamessan/vim-gnupg'
+" Preview markups
+Plug 'greyblake/vim-preview'
 "---------------=== Languages support ===-------------
 " --- python ---
 " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
@@ -149,7 +151,9 @@ syntax on
 
 let $PATH .= ":".$HOME."/bin"
 set shell=/bin/zsh
-set term=screen-256color
+if !has('gui') 
+    set term=screen-256color
+endif
 
 " no beeping and blinking
 set noerrorbells visualbell t_vb=
@@ -276,7 +280,11 @@ command! -bar LoadIDE LoadUS | LoadYCM "| LoadStc
 set t_Co=256
 colorscheme hybrid 
 set bg=dark
-highlight Error gui=none guifg=#cc6666 guibg=NONE 
+highlight ALEErrorSign gui=bold guifg=#cc6666 guibg=NONE
+hi Error term=underline cterm=underline 
+            \ctermfg=167 ctermbg=52 
+            \gui=bold guifg=#cc6666 guibg=#45383C
+"#5f0000
 
 " folding options {{{
 " auto folding

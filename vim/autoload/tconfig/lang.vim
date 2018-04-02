@@ -60,7 +60,7 @@ fun! tconfig#lang#ConfigVimtex() "{{{
     \   '-pdf',
     \   '-file-line-error',
     \   '-synctex=1',
-    \   '-interaction=batchmode',
+    \   '-interaction=nonstopmode',
     \   '-shell-escape'
     \ ],
     \}
@@ -69,17 +69,27 @@ fun! tconfig#lang#ConfigVimtex() "{{{
       \ ['\bigl', '\bigr'],
       \]
 "     let g:loaded_matchparen = 1
-    let g:vimtex_motion_matchparen = 0
+    let g:vimtex_matchparen_enabled=0 
+    let g:vimtex_motion_enabled = 0
     let g:vimtex_quickfix_mode = 0
     let g:vimtex_imaps_leader = '@'
     
     let g:vimtex_fold_enabled =1
     let g:vimtex_fold_manual = 1
-    let g:vimtex_fold_envs = 0
-    let g:vimtex_fold_sections = [
-        \ "section",
-        \ "paragraph",
-      \ ]
+"     let g:vimtex_fold_envs = 0
+    let g:vimtex_fold_types = {
+                \ 'preamble' : {'enabled' : 0},
+                \ 'envs'     : {'enabled' : 0},
+                \ 'sections'  : {'sections': [
+                    \ "section",
+                    \ "paragraph",
+                    \] }
+                \}
+
+"     let g:vimtex_fold_sections = [
+"         \ "section",
+"         \ "paragraph",
+"       \ ]
     let g:vimtex_quickfix_open_on_warning=0
 endf "}}}
 fun! tconfig#lang#ConfigClosetag() "{{{

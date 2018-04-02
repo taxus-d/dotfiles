@@ -31,7 +31,8 @@ fun! tconfig#stuff#Syntastic() "{{{
 endf "}}}
 fun! tconfig#stuff#ale() "{{{
     let g:ale_linters = {
-                \   'tex': ['chktex'],
+                \   'tex': [''],
+                \   'plaintex' : [''],
                 \   'python':['flake8']
                 \}
     let g:ale_sign_column_always = 1

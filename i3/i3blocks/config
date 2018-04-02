@@ -156,7 +156,7 @@ interval=30
 separator=false
 
 [time]
-label=
+label=
 command=date '+%H:%M'
 
 color=#FFFFFF

@@ -75,6 +75,9 @@ bindsym $mod+$alt+8 exec --no-startup-id compton-trans -c 80
 bindsym $mod+$alt+9 exec --no-startup-id compton-trans -c 90
 bindsym $mod+$alt+0 exec --no-startup-id compton-trans -c 100
 
+bindsym $mod+$alt+equal exec --no-startup-id compton-trans -c -- +1
+bindsym $mod+$alt+minus exec --no-startup-id compton-trans -c -- -1
+
 # took screenshot
 bindsym Print exec ksnapshot 
 
@@ -195,6 +198,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 7 # decrease screen brightnes
 # Touchpad controls
 #bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 
+bindsym XF86Tools exec systemsettings
 
 
 # Media player controls
@@ -256,6 +260,6 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Shift+Delete mode "$mode_system"
-# bindsym X86PowerOff mode "$mode_system"
+bindsym XF86PowerOff mode "$mode_system"
 
 
