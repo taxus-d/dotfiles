@@ -103,7 +103,7 @@ Plug 'c9s/perlomni.vim', {'for' : ['perl']}
 Plug 'jalvesaq/Nvim-R', {'for' : 'r'}
 
 " -------------=== Org features ===------------------
-Plug 'vimwiki/vimwiki'  | call tconfig#org#VimWiki()
+Plug 'vimwiki/vimwiki', {'branch': 'dev'}     | call tconfig#org#VimWiki()
 Plug 'mattn/calendar-vim', {'on' : 'Calendar' } | call tconfig#org#Calendar()
 Plug 'Rykka/mathematic.vim'
 

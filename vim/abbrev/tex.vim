@@ -37,6 +37,7 @@ iabbrev <buffer> @W \Omega
 iabbrev <buffer> @* \times
 iabbrev <buffer> @8 \infty
 iabbrev <buffer> @2 \sqrt
+iabbrev <buffer> @6 \partial
 iabbrev <buffer> @/ \frac
 iabbrev <buffer> @. \cdot
 
@@ -70,3 +71,5 @@ inoreabbrev <buffer> r>=;  \geqslant
 " just typos
 " inoreabbrev <buffer> \e  \Exp
 " inoreabbrev <buffer> \v  \Var
+
+iabbrev <buffer> тире <bs>~"--- 
