@@ -1,4 +1,11 @@
+set recolor true
+
 set recolor-lightcolor "#232c31"
-set recolor-darkcolor "#c5c8c6"
-set default-bg "#232c31"
-set guioptions ""
+set recolor-darkcolor  "#c5c8c6"
+set zoom-max 8000
+set guioptions "v"
+set notification-bg "#000000"
+set notification-fg "#ffffff"
+
+set smooth-scroll true
+set scroll-page-aware true
