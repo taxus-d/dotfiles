@@ -17,7 +17,7 @@ set termencoding=utf-8
 set updatetime=300
 
 " colorscheme gruvbox
-colorscheme hybrid
+colorscheme hybrid_material
 " AirlineTheme gruvbox
     
 " отключаем пищалку и мигание
@@ -28,7 +28,8 @@ augroup NoBells
 augroup END
 
 highlight lCursor guifg=NONE guibg=Cyan
-highlight Error gui=none guifg=#cc6666 guibg=NONE 
+" highlight Error gui=none guifg=#cc6666 guibg=NONE
+highlight ALEErrorSign gui=bold guifg=#cc6666 guibg=NONE
 
 " прячем панельки {{{
 set guioptions-=m   " меню

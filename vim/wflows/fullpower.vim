@@ -60,9 +60,11 @@ Plug 'greyblake/vim-preview'
 "---------------=== Languages support ===-------------
 " --- python ---
 " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-" Plug 'klen/python-mode', {'for': 'python'}  | call tconfig#lang#ConfigPythonMode()
+Plug 'python-mode/python-mode', {'branch': 'develop'}  | call tconfig#lang#ConfigPythonMode()
+let g:python_highlight_all = 1
 " Jedi-vim autocomplete plugin
-Plug 'davidhalter/jedi-vim', {'for': 'python'} | call tconfig#lang#ConfigJedi() 
+Plug 'davidhalter/jedi-vim' | call tconfig#lang#ConfigJedi()
+" Plug 'vim-scripts/indentpython.vim'
 " Plug 'mitsuhiko/vim-jinja'		" Jinja support for vim
 " Plug 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 
@@ -112,7 +114,8 @@ Plug 'morhetz/gruvbox'
 Plug 'zeis/vim-kolor'
 Plug 'tomasr/molokai'
 Plug 'sjl/badwolf'
-Plug 'w0ng/vim-hybrid' | let g:hybrid_reduced_contrast=1
+" let g:hybrid_reduced_contrast=0
+Plug 'w0ng/vim-hybrid' 
 Plug 'chriskempson/tomorrow-theme'
 " Plug 'darkspectrum'
 Plug 'altercation/vim-colors-solarized'
@@ -173,6 +176,7 @@ set modelines=1
 if has('mouse')
   set mouse=a
   set mousemodel=popup
+  set ttymouse=xterm2
 endif
 
 "Автоотступ
@@ -273,17 +277,27 @@ command! -bar LoadUS  call plug#load('ultisnips')
 command! -bar LoadFlB call plug#load('floobits-vim')
 command! -bar LoadStc call plug#load('syntastic')
 command! -bar LoadIDE LoadUS | LoadYCM "| LoadStc
+
 "}}}
 "=====================================================
 " appearance {{{
 "Включаем 256 цветов 
-set t_Co=256
-colorscheme hybrid 
+" set t_Co=256
+
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
+set termguicolors " have to be terribly accurate
+
+colorscheme hybrid_material
+
 set bg=dark
-highlight ALEErrorSign gui=bold guifg=#cc6666 guibg=NONE
+
 hi Error term=underline cterm=underline 
-            \ctermfg=167 ctermbg=52 
-            \gui=bold guifg=#cc6666 guibg=#45383C
+            \ ctermfg=167 ctermbg=52 
+            \ gui=bold guifg=#cc6666 guibg=NONE " #45383C
+highlight ALEErrorSign term=underline ctermbg=NONE ctermfg=203
+            \ gui=bold guifg=#cc6666 guibg=NONE " --> in gvimrc
+
 "#5f0000
 
 " folding options {{{
@@ -396,8 +410,9 @@ source ~/projects/by_lang/Vimscript/updrecfiles.vim
 source ~/projects/by_lang/Vimscript/vimwikifix/checkboxes.vim
 nmap <silent>gls <Plug>(FShiftCheckBox)
 nmap <silent>glS <Plug>(BShiftCheckBox)
+let g:vimwiki_main_index = 1
 augroup lang_setup " :let g:vimwiki_main_index=1<CR>
-    autocmd BufRead,BufEnter index.wiki if g:vimwiki_main_index == 1 | call DinamicRecentFilesList(30)
+    autocmd BufRead,BufEnter index.wiki if g:vimwiki_main_index == 1 | call DinamicRecentFilesList(15)
                 \| let g:vimwiki_main_index=0 | endif
     au BufWinLeave *.wiki mkview
     au BufWinEnter *.wiki silent loadview
@@ -441,5 +456,4 @@ endif
 
 "}}}
 "=====================================================
-
 " vim: fdm=marker foldlevel=0
