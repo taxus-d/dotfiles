@@ -9,20 +9,22 @@ function! tconfig#lang#ConfigPythonMode() "{{{
     let g:pymode_rope_completion = 0
     let g:pymode_rope_complete_on_dot = 0
 
+    let g:pymode_python = 'python3'
+
     " документация
-    let g:pymode_doc = 0
+    let g:pymode_doc = 1
     let g:pymode_doc_key = 'K'
 
-    " проверка кода
+    " проверка кода (тоже не нужна, ale)
     let g:pymode_lint = 1
-    let g:pymode_lint_checker = "flake8"
-    let g:pymode_lint_ignore="E231,W601,C0110"
+    let g:pymode_lint_checkers = ['pyflakes', 'pep8'] 
+    let g:pymode_lint_ignore=["E231", 'E221', 'E251', "W601", "C0110"]
 
     " провека кода после сохранения
     let g:pymode_lint_write = 1
 
     " поддержка virtualenv
-    let g:pymode_virtualenv = 1
+    let g:pymode_virtualenv = 0
 
     " установка breakpoints
     let g:pymode_breakpoint = 1
@@ -33,18 +35,31 @@ function! tconfig#lang#ConfigPythonMode() "{{{
     let g:pymode_syntax_all = 1
     let g:pymode_syntax_indent_errors = g:pymode_syntax_all
     let g:pymode_syntax_space_errors = g:pymode_syntax_all
+    let g:pymode_indent = 1
 
-    " отключить autofold по коду
     let g:pymode_folding = 0
+    
+    let g:pymode_motion = 1
 
     " возможность запускать код
     let g:pymode_run = 0 
-endfunction "}}}
+    
+    let g:pymode_lint_cwindow = 0
+    
+    let g:pymode_lint_todo_symbol = '⪼'
+    let g:pymode_lint_comment_symbol = '✏'
+    let g:pymode_lint_visual_symbol = 'RR'
+    let g:pymode_lint_error_symbol = '●'
+    let g:pymode_lint_info_symbol  = 'ⓘ'
+    let g:pymode_lint_pyflakes_symbol = 'FF'
 
+
+endfunction "}}}
 fun! tconfig#lang#ConfigJedi() "{{{
     " Disable choose first function/method at autocomplete
     let g:jedi#popup_select_first = 0 
     let g:jedi#popup_on_dot = 1 " Итогда тормозитъ
+    let g:jedi#show_call_signatures = "2"
 endf "}}}
 fun! tconfig#lang#ConfigVimtex() "{{{
     let g:vimtex_view_method='zathura'

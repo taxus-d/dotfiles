@@ -77,6 +77,6 @@ endfunction
 " Собственно, включаем всё это
 setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 
 setlocal formatoptions+=croq smartindent
-setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-call SetupPyModeOld()
-call SetupPyEnv()
+" setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+" call SetupPyModeOld()
+" call SetupPyEnv()

@@ -33,12 +33,13 @@ fun! tconfig#stuff#ale() "{{{
     let g:ale_linters = {
                 \   'tex': [''],
                 \   'plaintex' : [''],
-                \   'python':['flake8']
+                \   'python':['']
                 \}
     let g:ale_sign_column_always = 1
     let g:ale_sign_error = '●'
     let g:ale_sign_warning = '⪼'
     let g:ale_fortran_gcc_options = "-Wall -std=f2008 -pedantic -cpp -Wimplicit-interface -Wcompare-reals"
+    let g:ale_python_flake8_options = '--ignore=E251,E226,E221,E266,E121,E126'
 
 endf "}}}
 fun! tconfig#stuff#NERDComment() "{{{
@@ -64,6 +65,8 @@ fun! tconfig#stuff#YCM() "{{{
     if !exists('g:ycm_semantic_triggers')
         let g:ycm_semantic_triggers = {}
     endif
+    let g:ycm_autoclose_preview_window_after_completion=1
+    map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
     let g:ycm_semantic_triggers.tex = [
                 \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
                 \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
@@ -100,6 +103,7 @@ fun! tconfig#stuff#slimevim() "{{{
     let g:slime_target = "tmux"
     let g:slime_paste_file = "/tmp/.slime_paste"
     let g:slime_no_mappings = 1
+    let g:slime_python_ipython = 1
     xmap <leader>s <Plug>SlimeRegionSend
     nmap <leader>s <Plug>SlimeMotionSend
     nmap <leader>sp <Plug>SlimeParagraphSend
