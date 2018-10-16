@@ -87,6 +87,7 @@ _update_prompt() {
 %F{6}\
 %m\
 %f \
+%F{green}${PROMPT_ENV}%f\
 %F{214}\
 %2~ \
 %f\
@@ -119,14 +120,6 @@ bindkey -e
 #syntax hightlighting
 source ~/downloads/apps/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#env variables
-#export TEXMACS_PATH=/opt/texmacs
-if [[ ! $PATH =~ '$HOME/bin' ]]; then
-    PATH=$PATH:$HOME/bin
-fi
-export PATH
-#export PATH=$PATH:/opt/pycharm-community-4.5.1/bin:/opt/eclipse:/opt/google/chrome:/opt/sublime_text:/opt/texmacs/bin
-export TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S'
 
 # Aliases
 alias ls='ls --color=auto'
@@ -135,7 +128,7 @@ alias grep='grep --colour=auto'
 alias yes=:
 #alias atom='atom --force-device-scale-factor=1'
 alias gvimr='gvim --remote'
-alias tmux='TERM=screen-256color tmux -2 -u'
+alias tmux='export TERM=screen-256color && tmux -2 -u'
 # extract file
 extract () {
  if [ -f $1 ] ; then
@@ -193,7 +186,11 @@ fi
 #     print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
 # }
 zshexit() {
-    print -l $PWD ${(F)dirstack} >$DIRSTACKFILE
+#     typeset -A dirset; dirset=() # a way to store unique dirs
+#     for dir in $(print -l $(dirs -l) $dirstack); do
+#         dirset[$dir]=true;
+#     done
+#     print -l ${(@kF)dirset} >$DIRSTACKFILE
 }
 precmd() {
     _update_prompt
@@ -210,10 +207,6 @@ setopt PUSHD_IGNORE_DUPS
 ## This reverts the +/- operators.
 setopt PUSHD_MINUS
 
-export XDG_DATA_DIRS='/usr/share:/usr/share:/usr/local/share'
-export XDG_CURRENT_DESKTOP='kde'
-#export QT_SELECT=qt4
-
-export TERM=xterm-256color
-export TASKDDATA=/var/tmp/taskd
+#env variables
+. ~/cfg/tenvars.sh
 # vim:sw=4
