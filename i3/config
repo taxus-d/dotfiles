@@ -13,8 +13,8 @@
 exec --no-startup-id nm-applet
 exec --no-startup-id goldendict
 exec --no-startup-id feh --bg-fill ~/.i3/background.png
-exec --no-startup-id compton -b --backend glx -z
-
+exec --no-startup-id pactl set-sink-mute 0 toggle
+# exec --no-startup-id compton -b --backend glx --no-fading-openclose
 
 set $mod Mod4
 set $alt Mod1
@@ -37,30 +37,41 @@ floating_modifier $mod
 for_window [class="^.*" ] border 1pixel
 for_window [class="XClock"] border none, floating enable
 for_window [class="feh"] border none, floating enable
+for_window [class="InputOutput"] floating enable
+for_window [title="GKS QtTerm"] floating enable
+for_window [class="Yad"] floating enable
 hide_edge_borders smart
 # open a clock here right now
 # with same background as under mouse
 bindsym $mod+Shift+o exec ~/.i3/scripts/xclockwrapper.sh 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec i3-sensible-terminal -e tmux
 # Start a borderless transparent terminal
-bindsym $mod+Shift+Return exec xterm -name transparent tmux
-for_window [class="XTerm" instance="transparent"] border none #, exec --no-startup-id compton-trans -n transparent -o 75
+# bindsym $mod+Shift+Return exec xterm -name transparent tmux
+bindsym $mod+Shift+Return exec lxterminal
+for_window [class="XTerm" instance="transparent"] border none 
+#, exec --no-startup-id compton-trans -n transparent -o 75
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # open Gvim
 bindsym $mod+Shift+i exec gvim -name transp --servername GVIM 
-for_window [class="Gvim" instance="transp"] border none #, exec --no-startup-id compton-trans -c 90
+for_window [class="Gvim" instance="transp"] border none 
+#, exec --no-startup-id compton-trans -c 90
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run -fn 'Noto Mono-8'
-bindsym XF86LaunchA exec --no-startup-id dmenu_run -fn 'Noto Mono-8'
+# bindsym $mod+d exec --no-startup-id dmenu_run -fn 'Noto Mono-8'
+# bindsym XF86LaunchA exec --no-startup-id dmenu_run -fn 'Noto Mono-8'
+bindsym $mod+d exec --no-startup-id rofi -show combi
+bindsym XF86LaunchA exec --no-startup-id rofi -show combi
+bindsym $mod+n exec --no-startup-id "rofi -modi 'window,windowCD' -show window"
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+shift+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'Noto Mono-8'"
+# bindsym $mod+shift+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'Noto Mono-8'"
 
 # change borders
 bindsym $mod+b border toggle
@@ -80,7 +91,10 @@ bindsym $mod+$alt+equal exec --no-startup-id compton-trans -c -- +1
 bindsym $mod+$alt+minus exec --no-startup-id compton-trans -c -- -1
 
 # took screenshot
-bindsym Print exec ksnapshot 
+# bindsym Print exec ksnapshot
+bindsym Print exec --no-startup-id sharesnap
+
+
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -139,27 +153,27 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 #workspace tags
-set $tag1  "1１"
-set $tag2  "2２"
-set $tag3  "3３"
-set $tag4  "4４"
-set $tag5  "5５"
-set $tag6  "6６"
-set $tag7  "7７"
-set $tag8  "8８"
-set $tag9  "9９"
-set $tag0  "10"
-#めgfg
-# set $tag1  "1"
-# set $tag2  "2"
-# set $tag3  "3"
-# set $tag4  "4"
-# set $tag5  "5"
-# set $tag6  "6"
-# set $tag7  "7"
-# set $tag8  "8"
-# set $tag9  "9"
+# set $tag1  "1１"
+# set $tag2  "2２"
+# set $tag3  "3３"
+# set $tag4  "4４"
+# set $tag5  "5５"
+# set $tag6  "6６"
+# set $tag7  "7７"
+# set $tag8  "8８"
+# set $tag9  "9９"
 # set $tag0  "10"
+#めgfg
+set $tag1  "1"
+set $tag2  "2"
+set $tag3  "3"
+set $tag4  "4"
+set $tag5  "5"
+set $tag6  "6"
+set $tag7  "7"
+set $tag8  "8"
+set $tag9  "9"
+set $tag0  "10"
 # switch to workspace
 bindsym $mod+1 workspace $tag1
 bindsym $mod+2 workspace $tag2
@@ -243,16 +257,26 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
 #         output eDP1
         position bottom
-        status_command SCRIPT_DIR=~/.i3/i3blocks/ ~/.i3/i3blocks/i3blocks -c ~/.config/i3blocks/config 
+#         status_command SCRIPT_DIR=~/.i3/i3blocks/ ~/.i3/i3blocks/i3blocks -c ~/.config/i3blocks/config
+        status_command SCRIPT_DIR=~/.i3/i3blocks/ i3blocks
+        workspace_buttons       yes
         strip_workspace_numbers yes
         font pango:Noto Mono 8
         colors {
                 background #222222
+#                 statusline  #dddddd # in i3blocks
+#                 separator   #666666
+                # class             border  backgr. text
+                focused_workspace   #2b83a6 #2b83a6 #ffffff
+                active_workspace    #212121 #212121 #ffffff
+                inactive_workspace  #212121 #212121 #86888c
+                urgent_workspace    #d64e4e #d64e4e #ffffff
         }
 }
 
