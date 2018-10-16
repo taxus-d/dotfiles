@@ -82,6 +82,9 @@ fun! tconfig#lang#ConfigVimtex() "{{{
     let g:vimtex_delim_toggle_mod_list = [
       \ ['\left', '\right'],
       \ ['\bigl', '\bigr'],
+      \ ['\Bigl', '\Bigr'],
+      \ ['\biggl', '\biggr'],
+      \ ['\Biggl', '\Biggr'],
       \]
 "     let g:loaded_matchparen = 1
     let g:vimtex_matchparen_enabled=0 
