@@ -104,6 +104,9 @@ Plug 'c9s/perlomni.vim', {'for' : ['perl']}
 " --- R ----
 Plug 'jalvesaq/Nvim-R', {'for' : 'r'}
 
+" --- Julia ---
+Plug 'JuliaEditorSupport/julia-vim'
+
 " -------------=== Org features ===------------------
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}     | call tconfig#org#VimWiki()
 Plug 'mattn/calendar-vim', {'on' : 'Calendar' } | call tconfig#org#Calendar()
@@ -154,9 +157,6 @@ syntax on
 
 let $PATH .= ":".$HOME."/bin"
 set shell=/bin/zsh
-if !has('gui') 
-    set term=screen-256color
-endif
 
 " no beeping and blinking
 set noerrorbells visualbell t_vb=
@@ -176,8 +176,8 @@ set modelines=1
 if has('mouse')
   set mouse=a
   set mousemodel=popup
-  set ttymouse=xterm2
 endif
+
 
 "Автоотступ
 set autoindent
@@ -212,7 +212,16 @@ set ttyfast
 " redraw only when needed
 set lazyredraw " very useful
 " 3 lines per scroll
-set ttyscroll=3
+if !has('nvim')
+    if !has('gui')
+        set term=screen-256color
+    endif
+    if has('mouse')
+      set ttymouse=xterm2
+    endif
+
+    set ttyscroll=3
+endif
 
 " open existing file
 " if it is already opened in the buffer or in tab 
