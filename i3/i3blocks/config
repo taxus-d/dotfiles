@@ -21,7 +21,7 @@
 # urgent
 
 # Global properties
-command=$SCRIPT_DIR/default/$BLOCK_NAME
+command=$SCRIPT_DIR/contrib/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=10
 markup=pango
 separator=false
@@ -34,30 +34,36 @@ color=#999999
 # command="echo foo | $SCRIPT_DIR/custom/wrapblock/wrapblock"
 
 # [volume]
-# # label=VOL
+# label=VOL
 # label=♪
 # instance=Master
 # #instance=PCM
 # command=/usr/share/i3blocks/volume
-# interval=once
+# interval=3
 # signal=10
 
 [window title]
+full_text=desktop
 label=
-command=~/.i3/i3blocks/custom/wintitle/wintitle 54 2:1
+command=$SCRIPT_DIR/custom/wintitle/wintitle 54 2:1
 interval=3
+# command=~/downloads/apps/i3/xtitle/xtitle-0.4.3/xtitle -s -t 70
+# interval=persist
 color=#A6D1FA
 # min_width=1366
 # max_width=2350
 align=right
+separator=false
+
 
 [separator]
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-command=/usr/share/i3blocks/memory
 label= 
+full_text=meminfo
+command=$SCRIPT_DIR/custom/oldmemory/memory
 color=#FFFFFF
 separator=false
 interval=30
@@ -75,11 +81,12 @@ interval=30
 [cpu_usage]
 markup=pango
 label=<span font='Symbola'>⚛</span>
+full_text=cpuinfo
 
 interval=10
 color=#FFFFFF
-min_width=# 100.00%
-align=right
+# min_width=# 100.00%
+# align=right
 separator=false
 
 # Disk usage
@@ -109,24 +116,26 @@ interval=30
 
 [wifi]
 label=
-instance=wlan0
+full_text=none
+instance=wlp3s0
+# instance=wlan0
 
-interval=10
+interval=5
 separator=false
 
 [bandwidth]
-command=~/.i3/i3blocks/default/bandwidth -i  -o 
+# command=$SCRIPT_DIR/contrib/bandwidth/bandwidth -i  -o 
+command=$SCRIPT_DIR/contrib/bandwidth/bandwidth -i ↓  -o ↑
 label=
-# instance=eth0
+#instance=eth0
 color=#FFFFFF
 interval=5
 
 
 [separator]
 
-[temp]
+[temperature]
 label=
-command=~/.i3/i3blocks/contrib/temperature/temperature
 color=#FFFFFF
 interval=10
 
@@ -139,21 +148,19 @@ interval=10
 
 [separator]
 
-[battery]
-markup=pango
-command=$SCRIPT_DIR/contrib/battery/battery.py
-
+[battery2]
+color=#FFFFFF
 interval=30
 
 [separator]
 
-[date]
+[calendar]
 label=
-command=date '+%Y-%m-%d'
-
+command=$SCRIPT_DIR/contrib/calendar/calendar -f '+%F' -W '300'
 color=#FFFFFF
 interval=30
 separator=false
+
 
 [time]
 label=
@@ -168,3 +175,5 @@ interval=30
 [monitors]
 command=$SCRIPT_DIR/contrib/monitor_manager/monitor_manager.py
 interval=once
+
+

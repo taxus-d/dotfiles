@@ -13,8 +13,8 @@
 exec --no-startup-id nm-applet
 exec --no-startup-id goldendict
 exec --no-startup-id feh --bg-fill ~/.i3/background.png
-exec --no-startup-id pactl set-sink-mute 0 toggle
-# exec --no-startup-id compton -b --backend glx --no-fading-openclose
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+# exec --no-startup-id compton -b --backend glx --no-fading-openclose --glx-swap-method 1
 
 set $mod Mod4
 set $alt Mod1
@@ -39,6 +39,7 @@ for_window [class="XClock"] border none, floating enable
 for_window [class="feh"] border none, floating enable
 for_window [class="InputOutput"] floating enable
 for_window [title="GKS QtTerm"] floating enable
+for_window [title="floating"] floating enable
 for_window [class="Yad"] floating enable
 hide_edge_borders smart
 # open a clock here right now
@@ -92,7 +93,7 @@ bindsym $mod+$alt+minus exec --no-startup-id compton-trans -c -- -1
 
 # took screenshot
 # bindsym Print exec ksnapshot
-bindsym Print exec --no-startup-id sharesnap
+bindsym $mod+Print exec --no-startup-id sharesnap
 
 
 
@@ -212,9 +213,10 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle # mute sound
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 7 # increase screen brightness
