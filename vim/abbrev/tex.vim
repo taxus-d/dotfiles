@@ -47,6 +47,55 @@ iabbrev <buffer> @) \supset
 iabbrev <buffer> @A \forall
 iabbrev <buffer> @E \exists
 
+if g:tex_unicodecompiler == 1
+iabbrev <buffer> @a α
+iabbrev <buffer> @b β
+iabbrev <buffer> @g γ
+iabbrev <buffer> @d δ
+iabbrev <buffer> @e ε
+iabbrev <buffer> @z ζ
+iabbrev <buffer> @h η
+iabbrev <buffer> @q θ
+iabbrev <buffer> @i ι
+iabbrev <buffer> @k ϰ 
+iabbrev <buffer> @l λ
+iabbrev <buffer> @m μ
+iabbrev <buffer> @v ν
+iabbrev <buffer> @x χ
+iabbrev <buffer> @p π
+iabbrev <buffer> @r ρ
+iabbrev <buffer> @s σ
+iabbrev <buffer> @t τ
+iabbrev <buffer> @u υ
+iabbrev <buffer> @f φ
+iabbrev <buffer> @y ψ
+iabbrev <buffer> @w ω
+
+iabbrev <buffer> @G Γ
+iabbrev <buffer> @D Δ
+iabbrev <buffer> @Q Θ
+iabbrev <buffer> @L Λ
+iabbrev <buffer> @X \Xi
+iabbrev <buffer> @P Π
+iabbrev <buffer> @S Σ
+iabbrev <buffer> @U \Upsilon
+iabbrev <buffer> @F Φ
+iabbrev <buffer> @Y Ψ
+iabbrev <buffer> @W Ω
+
+iabbrev <buffer> @* ×
+iabbrev <buffer> @8 ∞
+iabbrev <buffer> @2 \sqrt
+iabbrev <buffer> @6 ∂
+iabbrev <buffer> @/ \frac
+iabbrev <buffer> @. \cdot
+
+iabbrev <buffer> @( \subset
+iabbrev <buffer> @) \supset
+
+iabbrev <buffer> @A \forall
+iabbrev <buffer> @E \exists
+endif
 
 " NoMatchParen
 " o[missions] abbrev ;[end]

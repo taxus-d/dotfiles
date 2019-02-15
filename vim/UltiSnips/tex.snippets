@@ -107,4 +107,14 @@ snippet fr "Beamer frame" b
 \begin{frame}{$1}
   $0
 \end{frame}
+endsnippet 
+
+snippet cols "Beamer columns" b
+\begin{columns}
+  \begin{column}{${1:0.5}\textwidth}}
+    $0
+  \end{column}
+  \begin{column}{${2:`!p snip.rv = 1 - float('0' + t[1])`}\textwidth}
+  \end{column}
+\end{columns}
 endsnippet

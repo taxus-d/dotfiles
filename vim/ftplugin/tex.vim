@@ -80,6 +80,12 @@ fun! s:ToggleColon() "{{{
     endif
 endf "}}}
 
+fun! s:ExtractParLabel() "{{{
+    let line = getline('.')
+    let lab = matchstr(line, '\v\{[^:]+:\zs[[:alnum:]]+::[[:alnum:]]+\ze[^}]*\}')
+    return lab
+endf "}}}
+
 let g:tex_conceal=''
 let g:tex_flavor='latex'
 let g:tex_fold_enabled=1
@@ -123,14 +129,24 @@ setlocal tabstop=2 shiftwidth=2 softtabstop=2
 " TIP: if you write your \label's as \label{fig:something}, then if you
 " type in \ref{fig: and press <C-n> you will automatically cycle through
 " all the figure labels. Very useful!
-inoremap » <C-o>:call <SID>ToggleColon() <cr>
 nnoremap <expr><leader>lfr <SID>PreviewLatex(@")
+inoremap <silent><c-l> <c-o>:let @p=<SID>ExtractParLabel()<cr>
 
-inoremap <buffer> ã <esc>i\mathcal <esc>ea
-inoremap <buffer> â <esc>i\mathbf  <esc>ea
-inoremap <buffer> ò <esc>i\mathrm  <esc>ea
-inoremap <buffer> ð <esc>i\mathpzc <esc>ea
-inoremap <buffer> é \item<esc>==ea 
+if has('nvim')
+    inoremap <buffer> <M-c> <esc>i\mathcal <esc>ea
+    inoremap <buffer> <M-b> <esc>i\mathbf  <esc>ea
+    inoremap <buffer> <M-r> <esc>i\mathrm  <esc>ea
+    inoremap <buffer> <M-p> <esc>i\mathpzc <esc>ea
+    inoremap <buffer> <M-i> \item<esc>==ea 
+    inoremap <M-;> <C-o>:call <SID>ToggleColon() <cr>
+else
+    inoremap <buffer> ã <esc>i\mathcal <esc>ea
+    inoremap <buffer> â <esc>i\mathbf  <esc>ea
+    inoremap <buffer> ò <esc>i\mathrm  <esc>ea
+    inoremap <buffer> ð <esc>i\mathpzc <esc>ea
+    inoremap <buffer> é \item<esc>==ea 
+    inoremap » <C-o>:call <SID>ToggleColon() <cr>
+endif
 let g:vimtex_imaps_enabled=0
 
 set iskeyword +=@-@
