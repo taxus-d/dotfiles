@@ -42,7 +42,7 @@ Plug 'scrooloose/nerdcommenter' | call tconfig#stuff#NERDComment()
 " Plugin 'jiangmiao/auto-pairs'           " auto delimiters -> buggy with clang
 " matching delimiters
 Plug 'Raimondi/delimitMate' | call tconfig#stuff#delimitMate()
-" Plug 'Valloric/YouCompleteMe' | call tconfig#stuff#YCM()
+Plug 'Valloric/YouCompleteMe' | call tconfig#stuff#YCM()
 " Plug 'Shougo/neocomplete' | call tconfig#stuff#neocomplete()
 " Plug 'Konfekt/FastFold', {'for': 'vimwiki'}
 Plug 'jpalardy/vim-slime' | call tconfig#stuff#slimevim()
@@ -60,11 +60,11 @@ Plug 'greyblake/vim-preview'
 "---------------=== Languages support ===-------------
 " --- python ---
 " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-Plug 'python-mode/python-mode', {'branch': 'develop'}  | call tconfig#lang#ConfigPythonMode()
+" Plug 'python-mode/python-mode', {'branch': 'develop'}  | call tconfig#lang#ConfigPythonMode()
 let g:python_highlight_all = 1
 " Jedi-vim autocomplete plugin
-Plug 'davidhalter/jedi-vim' | call tconfig#lang#ConfigJedi()
-" Plug 'vim-scripts/indentpython.vim'
+" Plug 'davidhalter/jedi-vim' | call tconfig#lang#ConfigJedi()
+Plug 'vim-scripts/indentpython.vim'
 " Plug 'mitsuhiko/vim-jinja'		" Jinja support for vim
 " Plug 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 

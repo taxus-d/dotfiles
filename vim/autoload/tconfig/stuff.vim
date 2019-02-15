@@ -33,8 +33,8 @@ fun! tconfig#stuff#ale() "{{{
     let g:ale_linters = {
                 \   'tex': [''],
                 \   'plaintex' : [''],
-                \   'python':['']
                 \}
+"                 \   'python':['']
     let g:ale_sign_column_always = 1
     let g:ale_sign_error = '●'
     let g:ale_sign_warning = '⪼'

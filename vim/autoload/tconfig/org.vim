@@ -17,7 +17,7 @@ fun! tconfig#org#VimWiki() "{{{
             \ , 'sro': '&&&'
             \ , 'kind2scope': {'h': 'header'}
             \ , 'sort': 0
-            \ , 'ctagsbin': '/home/iliya/.vim/bundle/vimwiki/plugin/vwtags.py'
+            \ , 'ctagsbin': '~/.vim/bundle/vimwiki/plugin/vwtags.py'
             \ , 'ctagsargs': 'default'
             \ }
 
@@ -28,14 +28,26 @@ fun! tconfig#org#VimWiki() "{{{
                 \ 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
                 \ }
     let wiki = {}
-    let wiki.path  =  '~/notes/vimwiki'
-    let wiki.path_html  = '~/notes/vimwiki/export/html'
-    let wiki.nested_syntaxes = {
-                \ 'python' : 'python', 
-                \ 'c++' : 'cpp',
-                \ 'p6' : 'perl6',
-                \}
-    let g:vimwiki_list = [wiki]
+    let wiki.path             = "$NOTES_DIR/vimwiki/"
+    let wiki.path_html        = "$NOTES_DIR/vimwiki/export/html"
+    let wiki.template_path    = "$NOTES_DIR/vimwiki/export/vimwiki_templates/"
+    let wiki.template_default = 'plain'
+    let wiki.template_ext     = '.tpl'
+    let wiki.css_name         = 'export/vimwiki_stylesheets/plain.css'
+
+    let exwiki = {}
+    let exwiki.path             = "$ASTROCONSP_DIR"
+    let exwiki.path_html        = "$ASTROCONSP_DIR/vimwiki_html" "for proper nesting
+    let exwiki.template_path    = "$ASTROCONSP_DIR/tools/web-related/tpl"
+    let exwiki.template_default = 'plain'
+    let exwiki.template_ext     = '.tpl'
+    let exwiki.css_name         = 'tools/web-related/css/plain.css'
+"     let wiki.nested_syntaxes = {
+"                 \ 'python' : 'python',
+"                 \ 'c++' : 'cpp',
+"                 \ 'p6' : 'perl6',
+"                 \}
+    let g:vimwiki_list = [wiki, exwiki]
 
 
     " Use Vim to open external files with the 'vim:' scheme.  E.g.:

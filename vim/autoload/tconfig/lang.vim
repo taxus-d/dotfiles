@@ -59,13 +59,18 @@ fun! tconfig#lang#ConfigJedi() "{{{
     " Disable choose first function/method at autocomplete
     let g:jedi#popup_select_first = 0 
     let g:jedi#popup_on_dot = 1 " Итогда тормозитъ
-    let g:jedi#show_call_signatures = "2"
+    let g:jedi#show_call_signatures = "1"
+    python3 import jedi; jedi.preload_module('os', 'sys', 'math', 'numpy')
+"     let g:jedi#autocompletion_command = "<tab>"
 endf "}}}
 fun! tconfig#lang#ConfigVimtex() "{{{
     let g:vimtex_view_method='zathura'
+    if has("nvim")
+        let g:vimtex_compiler_progname='nvr'
+    endif
 "     let g:vimtex_latexmk_options='-pdf -verbose -pdflatex="pdflatex --interaction=nonstopmode --synctex=1 --file-line-error "'
+"     \ 'backend' :  'nvim',
     let g:vimtex_compiler_latexmk = {
-    \ 'backend' : 'jobs',
     \ 'background' : 1,
     \ 'build_dir' : '',
     \ 'callback' : 1,
@@ -103,12 +108,13 @@ fun! tconfig#lang#ConfigVimtex() "{{{
                     \ "paragraph",
                     \] }
                 \}
-
+    
 "     let g:vimtex_fold_sections = [
 "         \ "section",
 "         \ "paragraph",
 "       \ ]
     let g:vimtex_quickfix_open_on_warning=0
+    let g:tex_unicodecompiler = 1
 endf "}}}
 fun! tconfig#lang#ConfigClosetag() "{{{
     let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml"
