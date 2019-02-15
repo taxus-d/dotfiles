@@ -21,6 +21,7 @@ zstyle ':completion:*' completer _complete _ignored
 zstyle :compinstall filename '/home/iliya/.zshrc'
 
 # Emacs style edit-command
+bindkey -e
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
@@ -113,13 +114,12 @@ HISTSIZE=5000
 SAVEHIST=5000
 setopt APPEND_HISTORY
 
-bindkey -e
 
 #options
 
 #syntax hightlighting
 source ~/downloads/apps/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+source /usr/share/doc/find-the-command/ftc.zsh
 
 # Aliases
 alias ls='ls --color=auto'
@@ -129,6 +129,8 @@ alias yes=:
 #alias atom='atom --force-device-scale-factor=1'
 alias gvimr='gvim --remote'
 alias tmux='export TERM=screen-256color && tmux -2 -u'
+alias tlmgr=/usr/share/texmf-dist/scripts/texlive/tlmgr.pl
+alias e=nvim
 # extract file
 extract () {
  if [ -f $1 ] ; then
@@ -168,6 +170,11 @@ pk() {
     else
         echo "'$1' is not a valid file"
     fi
+}
+
+quote_concat_files () {
+    echo 'CHECK SINGLE QUOTES!' >&2
+    echo $(cat "$@" | awk -v q=\' 'NF {print q $0 q}')
 }
 
 case "$TERM" in
