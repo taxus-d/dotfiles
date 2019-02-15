@@ -1,7 +1,7 @@
 #!/bin/sh
 
 lock() {
-    i3lock -i ~/.i3/lock_screen.png -p win -e -f
+    i3lock -t -i ~/.i3/lock_screen.png -p win -e -f
 }
 
 case "$1" in
