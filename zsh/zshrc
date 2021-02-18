@@ -1,7 +1,6 @@
-
 fpath=(~/opt/zsh/Completion/ $fpath)
 autoload -Uz compinit promptinit colors zcalc
-compinit
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 promptinit
 colors
 
@@ -18,7 +17,7 @@ alias help=run-help
 zstyle ':completion:*' menu select=long-list select=0
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' completer _complete _ignored
-zstyle :compinstall filename '/home/iliya/.zshrc'
+zstyle :compinstall filename $XDG_CONFIG_HOME'/zsh/.zshrc'
 
 # Emacs style edit-command
 bindkey -e
@@ -109,10 +108,11 @@ setopt correct
 SPROMPT="Error! Replace %r with %R ([Y]es/[N]o/[E]dit/[A]bort)"
 
 #history
-HISTFILE=~/.histfile
-HISTSIZE=5000
-SAVEHIST=5000
+HISTFILE="$XDG_DATA_HOME"/zsh/histfile
+HISTSIZE=10000
+SAVEHIST=10000
 setopt APPEND_HISTORY
+setopt HIST_IGNORE_SPACE
 
 
 #options
@@ -128,9 +128,11 @@ alias grep='grep --colour=auto'
 alias yes=:
 #alias atom='atom --force-device-scale-factor=1'
 alias gvimr='gvim --remote'
-alias tmux='export TERM=screen-256color && tmux -2 -u'
+# alias tmux='export TERM=tmux-256color && tmux'
 alias tlmgr=/usr/share/texmf-dist/scripts/texlive/tlmgr.pl
 alias e=nvim
+
+alias 9=/opt/plan9/bin/9
 # extract file
 extract () {
  if [ -f $1 ] ; then
@@ -172,6 +174,19 @@ pk() {
     fi
 }
 
+weather() {
+    local request="wttr.in/$1"
+    [ "$(tput cols)" -lt 125 ] && request+='?n'
+    curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+}
+
+weathergraph() {
+    local request="v2.wttr.in/$1"
+    [ "$(tput cols)" -lt 125 ] && request+='?n'
+    curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+}
+
+
 quote_concat_files () {
     echo 'CHECK SINGLE QUOTES!' >&2
     echo $(cat "$@" | awk -v q=\' 'NF {print q $0 q}')
@@ -203,6 +218,11 @@ precmd() {
     _update_prompt
 }
 
+function zle-line-init () { echoti smkx }
+function zle-line-finish () { echoti rmkx }
+zle -N zle-line-init
+zle -N zle-line-finish
+
 DIRSTACKSIZE=20
 
 setopt AUTO_CD
@@ -216,4 +236,17 @@ setopt PUSHD_MINUS
 
 #env variables
 . ~/cfg/tenvars.sh
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+## todo.sh autocompletion
+
+# . ~/downloads/apps/task/todo.txt_cli-2.11.0/todo_completion
+
+
+whattodo () {
+    todo.sh deduplicate &>/dev/null
+    todo.sh archive &>/dev/null
+    todo.sh -c -@ ls @Iliya
+}
+
 # vim:sw=4
