@@ -8,8 +8,9 @@ fun! tconfig#org#VimWiki() "{{{
     let g:vimwiki_toc_header='Содержание'
     let g:vimwiki_hl_headers = 1
     let g:vimwiki_hl_cb_checked = 1
-    let g:vimwiki_listsyms = ' ○◐●✓'
+"     let g:vimwiki_listsyms = ' ○◐●✓'
     let g:vimwiki_conceallevel=2
+    let g:vimwiki_valid_html_tags="b,i,s,u,sub,sup,kbd,br,hr,details,summary,div"
     
     let g:tagbar_type_vimwiki = {
             \   'ctagstype': 'vimwiki'
@@ -42,12 +43,28 @@ fun! tconfig#org#VimWiki() "{{{
     let exwiki.template_default = 'plain'
     let exwiki.template_ext     = '.tpl'
     let exwiki.css_name         = 'tools/web-related/css/plain.css'
+    let exwiki.listsyms = ' .oOX'
+    
+    let antares_wiki = {}
+    let antares_wiki.path             = $ANTARES_DIR
+    let antares_wiki.path_html        = $ANTARES_DIR."/rendered/html" "for proper nesting
+    let antares_wiki.template_path    = $ANTARES_DIR."/rendered/html/tpl"
+    let antares_wiki.template_default = 'plain'
+    let antares_wiki.template_ext     = '.tpl'
+    let antares_wiki.css_name         = 'css/plain.css'
+    let antares_wiki.listsyms = ' .oOX'
+    let antares_wiki.diary_rel_path   = 'пары'
+    let antares_wiki.diary_index   = 'список_пар'
+    let antares_wiki.diary_header   = 'Занятия'
 "     let wiki.nested_syntaxes = {
 "                 \ 'python' : 'python',
 "                 \ 'c++' : 'cpp',
 "                 \ 'p6' : 'perl6',
 "                 \}
-    let g:vimwiki_list = [wiki, exwiki]
+    let g:vimwiki_list = [wiki, antares_wiki]
+
+    let g:vimwiki_ext2syntax = {'.md': 'markdown',
+                \ '.mkd': 'markdown'}
 
 
     " Use Vim to open external files with the 'vim:' scheme.  E.g.:

@@ -77,6 +77,10 @@ endfunction
 " Собственно, включаем всё это
 setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 
 setlocal formatoptions+=croq smartindent
+
+set formatprg=black\ -\ -q"
+
+nnoremap <leader>b 0iimport pdb; pdb.set_trace()
 " setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 " call SetupPyModeOld()
 " call SetupPyEnv()

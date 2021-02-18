@@ -151,7 +151,7 @@ let g:vimtex_imaps_enabled=0
 
 set iskeyword +=@-@
 set iskeyword -=_
-source ~/.vim/abbrev/tex.vim
+exe "source ".$XDG_DATA_HOME."/vim/abbrev/tex.vim"
 
 " if ! exists('did_set_vimtex_imaps')
 "     call vimtex#imaps#add_map({

@@ -3,7 +3,7 @@
 " let g:fortran_fold=0
 " let g:fortran_fold_conditionals=0
 " let g:fortran_fold_multilinecomments=0
-" let g:fortran_free_source=1
+" let g:fortran_fixed_source=1
 
 setlocal shiftwidth=4
 setlocal foldmethod=syntax

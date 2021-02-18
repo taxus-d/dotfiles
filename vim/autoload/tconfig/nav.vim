@@ -14,6 +14,7 @@ fun! tconfig#nav#NERDTree() "{{{
     let g:NERDTreeIgnore = ['\~$', 
                 \ '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', 
                 \ '\.o$', '\.mod$' ]  
+    let g:NERDTreeBookmarksFile = $XDG_CONFIG_HOME. "/NERDTree/bookmarks"
 endf "}}}
 fun! tconfig#nav#TaskList() "{{{
 " отобразить список тасков на F2
@@ -25,10 +26,20 @@ fun! tconfig#nav#CtrlP() "{{{
         " Use ag in CtrlP for listing files. Lightning fast and
         "     respects .gitignore
       let g:ctrlp_working_path_mode = 'rc'
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"       let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+      let g:ctrlp_user_command = 'rg %s --files --color=never --glob "" '
 
         " ag is fast enough that CtrlP doesn't need to cache
 "         let g:ctrlp_use_caching = 0
     endif
+endf "}}}
+fun! tconfig#nav#Matchup() "{{{
+    let g:matchup_matchparen_offscreen={'method': 'popup'}
+    let g:matchup_matchparen_deferred=1
+endf "}}}
+
+fun! tconfig#nav#UndoTree() "{{{
+    let g:undotree_WindowLayout = 4
+    let g:undotree_RelativeTimestamp = 0
 endf "}}}
 " vim: foldmethod=marker foldlevel=0

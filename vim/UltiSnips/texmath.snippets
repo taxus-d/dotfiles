@@ -5,3 +5,28 @@ endsnippet
 snippet int "\int_{a}^{b} f(x) d x" w
 \int_{${1:a}^{${2:b}} ${3:f}
 endsnippet
+
+snippet jup "jupyter block" w
+jup $1 endjup$0
+endsnippet
+
+priority 10000
+snippet 'jup(.*)endjup' "evaluate with jupyter" wr
+`!p
+import json
+import urllib.parse
+import urllib.request
+
+port = 8889
+url = "http://127.0.0.1:" + str(port) + '/evaluate'
+data = urllib.parse.urlencode({'expr':match.group(1)})
+response = urllib.request.urlopen(url + '?' + data)
+resps = json.loads(response.read())
+snip.rv = resps['evaluated']
+`
+endsnippet
+
+# snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
+# \\frac{`!p snip.rv = match.group(1)`}{$1}$0
+# endsnippet
+    

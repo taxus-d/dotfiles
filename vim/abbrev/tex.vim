@@ -36,6 +36,7 @@ iabbrev <buffer> @W \Omega
 
 iabbrev <buffer> @* \times
 iabbrev <buffer> @8 \infty
+iabbrev <buffer> @oo \infty
 iabbrev <buffer> @2 \sqrt
 iabbrev <buffer> @6 \partial
 iabbrev <buffer> @/ \frac
@@ -85,6 +86,7 @@ iabbrev <buffer> @W Ω
 
 iabbrev <buffer> @* ×
 iabbrev <buffer> @8 ∞
+iabbrev <buffer> @oo ∞
 iabbrev <buffer> @2 \sqrt
 iabbrev <buffer> @6 ∂
 iabbrev <buffer> @/ \frac

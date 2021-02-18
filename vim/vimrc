@@ -1,1 +1,4 @@
-so ~/.vim/wflows/fullpower.vim
+set rtp^=$XDG_DATA_HOME/vim       "prepend
+set rtp+=$XDG_DATA_HOME/vim/after "append
+let &packpath = &runtimepath
+source $XDG_CONFIG_HOME/vim/wflows/fullpower.vim

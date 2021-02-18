@@ -33,13 +33,20 @@ fun! tconfig#stuff#ale() "{{{
     let g:ale_linters = {
                 \   'tex': [''],
                 \   'plaintex' : [''],
+                \   'html' : [''],
                 \}
 "                 \   'python':['']
+"
+    let g:ale_fixers = {
+                \   'python': ['black'],
+                \}
     let g:ale_sign_column_always = 1
     let g:ale_sign_error = '●'
     let g:ale_sign_warning = '⪼'
     let g:ale_fortran_gcc_options = "-Wall -std=f2008 -pedantic -cpp -Wimplicit-interface -Wcompare-reals"
-    let g:ale_python_flake8_options = '--ignore=E251,E226,E221,E266,E121,E126'
+    let g:ale_python_flake8_options = '--ignore=E251,E226,E221,E266,E121,E126,E203,E501'
+    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_lint_on_insert_leave = 1
 
 endf "}}}
 fun! tconfig#stuff#NERDComment() "{{{
@@ -55,7 +62,9 @@ fun! tconfig#stuff#NERDComment() "{{{
     let g:NERDTrimTrailingWhitespace = 1
     let g:NERDCustomDelimiters = {
                 \ 'forth': { 'left': '\', 'leftAlt': '( ', 'rightAlt': ' )' },
+                \ 'fortran': { 'left': '!', 'leftAlt': 'c'},
                 \ }
+    imap <leader>ch <plug>NERDCommenterInsert
 endf "}}}
 fun! tconfig#stuff#delimitMate() "{{{
     let g:delimitMate_expand_cr=1
@@ -108,5 +117,18 @@ fun! tconfig#stuff#slimevim() "{{{
     nmap <leader>s <Plug>SlimeMotionSend
     nmap <leader>sp <Plug>SlimeParagraphSend
     nmap <leader>ss <Plug>SlimeLineSend
+endf "}}}
+fun! tconfig#stuff#floaterm() "{{{
+    let g:floaterm_keymap_toggle = '<Leader>tt'
+    let g:floaterm_position = 'bottom'
+    let g:floaterm_autoclose = 1
+    let g:floaterm_title = ""
+    let g:floaterm_width = 0.9
+    let g:floaterm_height = 0.4
+endf "}}}
+
+fun! tconfig#stuff#MarkdownPreview() "{{{
+    let g:mkdp_markdown_css = expand('~/notes/blags/qua.name/Moltenburan/css/buran.css')
+"     let g:mkdp_browser = 'ffapp'
 endf "}}}
 " vim: foldmethod=marker foldlevel=0

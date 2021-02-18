@@ -16,9 +16,9 @@ set list "invisible characters, sometimes useful
 set termencoding=utf-8
 set updatetime=300
 
-" colorscheme gruvbox
+colorscheme gruvbox
 colorscheme hybrid_material
-" AirlineTheme gruvbox
+AirlineTheme gruvbox
     
 " отключаем пищалку и мигание
 set noerrorbells visualbell t_vb=
