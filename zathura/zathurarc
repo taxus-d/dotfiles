@@ -1,11 +1,15 @@
 #set recolor true
 
-set recolor-lightcolor "#232c31"
+# set recolor-lightcolor "#232c31"
 set recolor-darkcolor  "#c5c8c6"
+set recolor-lightcolor  "#2f2e2d"
 set zoom-max 8000
 set guioptions "v"
 set notification-bg "#000000"
 set notification-fg "#ffffff"
 
-set smooth-scroll true
+set default-fg "#000000"
+set default-bg "#000000"
+
+# set smooth-scroll true
 set scroll-page-aware true
