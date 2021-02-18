@@ -44,7 +44,7 @@ color=#999999
 
 [window title]
 full_text=desktop
-label=
+label= 
 command=$SCRIPT_DIR/custom/wintitle/wintitle 54 2:1
 interval=3
 # command=~/downloads/apps/i3/xtitle/xtitle-0.4.3/xtitle -s -t 70
@@ -80,7 +80,7 @@ interval=30
 # see the script for details.
 [cpu_usage]
 markup=pango
-label=<span font='Symbola'>⚛</span>
+label=<span font='Symbola'>⚛  </span>
 full_text=cpuinfo
 
 interval=10
@@ -95,7 +95,7 @@ separator=false
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label=<span font='Symbola'>⛃</span>
+label=<span font='Symbola'>⛃ </span>
 markup=pango
 full_text=
 color=#FFFFFF
@@ -115,9 +115,9 @@ interval=30
 [separator]
 
 [wifi]
-label=
+label= 
 full_text=none
-instance=wlp3s0
+instance=wlan0
 # instance=wlan0
 
 interval=5
@@ -126,16 +126,16 @@ separator=false
 [bandwidth]
 # command=$SCRIPT_DIR/contrib/bandwidth/bandwidth -i  -o 
 command=$SCRIPT_DIR/contrib/bandwidth/bandwidth -i ↓  -o ↑
-label=
-#instance=eth0
+label= 
+instance=wlan0
+# instance=enp0s25
 color=#FFFFFF
 interval=5
-
 
 [separator]
 
 [temperature]
-label=
+label= 
 color=#FFFFFF
 interval=10
 
@@ -155,19 +155,19 @@ interval=30
 [separator]
 
 [calendar]
-label=
+label= 
 command=$SCRIPT_DIR/contrib/calendar/calendar -f '+%F' -W '300'
 color=#FFFFFF
 interval=30
 separator=false
+SHORTFMT="+%d.%m.%Y"
 
 
 [time]
-label=
+label= 
 command=date '+%H:%M'
-
 color=#FFFFFF
-interval=30
+interval=1
 
 
 [separator]

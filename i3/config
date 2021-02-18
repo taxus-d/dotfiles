@@ -13,8 +13,10 @@
 exec --no-startup-id nm-applet
 exec --no-startup-id goldendict
 exec --no-startup-id feh --bg-fill ~/.i3/background.png
+exec --no-startup-id autorandr-launcher
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
-# exec --no-startup-id compton -b --backend glx --no-fading-openclose --glx-swap-method 1
+# exec --no-startup-id compton -b --backend glx --no-fading-openclose -CG
+exec --no-startup-id udiskie -s
 
 set $mod Mod4
 set $alt Mod1
@@ -47,7 +49,7 @@ hide_edge_borders smart
 bindsym $mod+Shift+o exec ~/.i3/scripts/xclockwrapper.sh 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec i3-sensible-terminal -e tmux
+bindsym $mod+Return exec launchwithtmux mlterm -e
 # Start a borderless transparent terminal
 # bindsym $mod+Shift+Return exec xterm -name transparent tmux
 bindsym $mod+Shift+Return exec lxterminal
@@ -67,7 +69,7 @@ for_window [class="Gvim" instance="transp"] border none
 # bindsym XF86LaunchA exec --no-startup-id dmenu_run -fn 'Noto Mono-8'
 bindsym $mod+d exec --no-startup-id rofi -show combi
 bindsym XF86LaunchA exec --no-startup-id rofi -show combi
-bindsym $mod+n exec --no-startup-id "rofi -modi 'window,windowCD' -show window"
+bindsym $mod+n exec --no-startup-id "rofi -modi 'window,windowcd' -show window"
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -77,23 +79,33 @@ bindsym $mod+n exec --no-startup-id "rofi -modi 'window,windowCD' -show window"
 # change borders
 bindsym $mod+b border toggle
 
-bindsym $mod+$alt+1 exec --no-startup-id compton-trans -c 10
-bindsym $mod+$alt+2 exec --no-startup-id compton-trans -c 20
-bindsym $mod+$alt+3 exec --no-startup-id compton-trans -c 30
-bindsym $mod+$alt+4 exec --no-startup-id compton-trans -c 40
-bindsym $mod+$alt+5 exec --no-startup-id compton-trans -c 50
-bindsym $mod+$alt+6 exec --no-startup-id compton-trans -c 60
-bindsym $mod+$alt+7 exec --no-startup-id compton-trans -c 70
-bindsym $mod+$alt+8 exec --no-startup-id compton-trans -c 80
-bindsym $mod+$alt+9 exec --no-startup-id compton-trans -c 90
-bindsym $mod+$alt+0 exec --no-startup-id compton-trans -c 100
+bindsym $mod+$alt+1 exec --no-startup-id transset-df -a 0.10
+bindsym $mod+$alt+2 exec --no-startup-id transset-df -a 0.20
+bindsym $mod+$alt+3 exec --no-startup-id transset-df -a 0.30
+bindsym $mod+$alt+4 exec --no-startup-id transset-df -a 0.40
+bindsym $mod+$alt+5 exec --no-startup-id transset-df -a 0.50
+bindsym $mod+$alt+6 exec --no-startup-id transset-df -a 0.60
+bindsym $mod+$alt+7 exec --no-startup-id transset-df -a 0.70
+bindsym $mod+$alt+8 exec --no-startup-id transset-df -a 0.80
+bindsym $mod+$alt+9 exec --no-startup-id transset-df -a 0.90
+bindsym $mod+$alt+0 exec --no-startup-id transset-df -a 1.00
 
-bindsym $mod+$alt+equal exec --no-startup-id compton-trans -c -- +1
-bindsym $mod+$alt+minus exec --no-startup-id compton-trans -c -- -1
+bindsym $mod+$alt+equal exec --no-startup-id transset-df -a --inc 0.01
+bindsym $mod+$alt+minus exec --no-startup-id transset-df -a --dec 0.01
 
 # took screenshot
 # bindsym Print exec ksnapshot
 bindsym $mod+Print exec --no-startup-id sharesnap
+set $mode_snap Snapshotting.. (w) active window, (f) fullscreen, (s) selection
+bindsym $mod+Shift+Print mode "$mode_snap"
+mode "$mode_snap" {
+    bindsym f mode "default" exec --no-startup-id sharesnap -f
+    bindsym s mode "default" exec --no-startup-id sharesnap
+    bindsym w mode "default" exec --no-startup-id sharesnap -w
+    
+    bindsym Return mode "default" exec --no-startup-id sharesnap -f
+    bindsym Escape mode "default"
+}
 
 
 
@@ -127,6 +139,19 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# the same with workspaces
+# move focused workspace
+bindsym $mod+$alt+Shift+h move workspace to output left
+bindsym $mod+$alt+Shift+j move workspace to output down
+bindsym $mod+$alt+Shift+k move workspace to output up
+bindsym $mod+$alt+Shift+l move workspace to output right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+$alt+Shift+Left  move workspace to output left
+bindsym $mod+$alt+Shift+Down  move workspace to output down
+bindsym $mod+$alt+Shift+Up    move workspace to output up
+bindsym $mod+$alt+Shift+Right move workspace to output right
+
 # split in horizontal orientation
 bindsym $mod+equal split h
 
@@ -146,6 +171,9 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
+
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -175,6 +203,7 @@ set $tag7  "7"
 set $tag8  "8"
 set $tag9  "9"
 set $tag0  "10"
+
 # switch to workspace
 bindsym $mod+1 workspace $tag1
 bindsym $mod+2 workspace $tag2
@@ -199,11 +228,20 @@ bindsym $mod+Shift+8 move container to workspace $tag8
 bindsym $mod+Shift+9 move container to workspace $tag9
 bindsym $mod+Shift+0 move container to workspace $tag0
 
+# special workspace
+set $proj "projector"
+workspace $proj output VGA1
+bindsym $mod+p workspace $proj
+bindsym $mod+Shift+p move container to workspace $proj
+
 # Workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
 bindsym $mod+g workspace back_and_forth
 bindsym $mod+Shift+g move container to workspace back_and_forth; workspace back_and_forth
 
+
+# select clipboard paste
+bindsym $mod+$alt+c exec --no-startup-id clipmenu
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -266,7 +304,7 @@ bar {
 #         output eDP1
         position bottom
 #         status_command SCRIPT_DIR=~/.i3/i3blocks/ ~/.i3/i3blocks/i3blocks -c ~/.config/i3blocks/config
-        status_command SCRIPT_DIR=~/.i3/i3blocks/ i3blocks
+        status_command SCRIPT_DIR=~/.local/share/i3blocks/ i3blocks
         workspace_buttons       yes
         strip_workspace_numbers yes
         font pango:Noto Mono 8
@@ -280,16 +318,21 @@ bar {
                 inactive_workspace  #212121 #212121 #86888c
                 urgent_workspace    #d64e4e #d64e4e #ffffff
         }
+        tray_output primary # tray on laptop screen
 }
+
+# hide/unhide i3status bar
+bindsym $mod+m bar mode toggle
+
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id ~/.i3/scripts/i3exit lock, mode "default"
-    bindsym e exec --no-startup-id ~/.i3/scripts/i3exit logout, mode "default"
-    bindsym s exec --no-startup-id ~/.i3/scripts/i3exit suspend, mode "default"
-    bindsym h exec --no-startup-id ~/.i3/scripts/i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id ~/.i3/scripts/i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id ~/.i3/scripts/i3exit shutdown, mode "default"
+    bindsym l exec --no-startup-id ~/.config/i3/scripts/i3exit lock, mode "default"
+    bindsym e exec --no-startup-id ~/.config/i3/scripts/i3exit logout, mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/scripts/i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/scripts/i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/scripts/i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/.config/i3/scripts/i3exit shutdown, mode "default"
 
 # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -300,3 +343,59 @@ bindsym $mod+Shift+Delete mode "$mode_system"
 bindsym XF86PowerOff mode "$mode_system"
 
 
+#############################
+### settings for i3-gaps: ###
+#############################
+
+# Set inner/outer gaps
+gaps inner 0
+gaps outer 0
+
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+smart_gaps on
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+smart_borders on
+
+# Press $mod+Ctrl+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Ctrl+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
